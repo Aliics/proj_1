@@ -33,6 +33,7 @@ C# experience that I have obtained.
 #define CLR_OPTION '!'
 #define EXT_OPTION '.'
 
+#ifdef __unix__
 #define COLOUR_RESET "\x1b[0m"
 #define COLOUR_RED "\x1b[31m"
 #define COLOUR_GREEN "\x1b[32m"
@@ -40,6 +41,15 @@ C# experience that I have obtained.
 #define COLOUR_BLUE "\x1b[34m"
 #define COLOUR_MAGENTA "\x1b[35m"
 #define COLOUR_CYAN "\x1b[36m"
+#elif _WIN64
+#define COLOUR_RESET "^[[0;30;40m"
+#define COLOUR_RED "^[[0;31;41m"
+#define COLOUR_GREEN "^[[0;32;42m"
+#define COLOUR_YELLOW "^[[0;33;43m"
+#define COLOUR_BLUE "^[[0;34;44m"
+#define COLOUR_MAGENTA "^[[0;35;45m"
+#define COLOUR_CYAN "^[[0;36;46m"
+#endif
 
 int main() {
 	int programExitCode = 0;
