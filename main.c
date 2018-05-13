@@ -26,6 +26,7 @@ C# experience that I have obtained.
 #define SUB_OPTION '-'
 #define MLT_OPTION '*'
 #define DIV_OPTION '/'
+#define PWR_OPTION '^'
 #define EQL_OPTION '='
 #define BCK_OPTION '<'
 #define FWD_OPTION '>'
@@ -65,21 +66,22 @@ int main() {
 
 		switch (optionInput) {
 			case HELP_OPTION:
-				printf("\n\t||%s||\n", "Execute a command with their INPUT and PARAMS");
-				printf("\n\t||%s||\n", "      keys that are listed in the table      ");
-				printf("\n\t|%s\t|%s\t\t|%s\t\t|\n", "COMMAND", "INPUT", "PARAMS");
-				printf("\t=================================================\n");
-				printf("\t|%s\t|%c\t\t|%s\t|\n", "Addition", ADD_OPTION, "[float]");
-				printf("\t|%s\t|%c\t\t|%s\t|\n", "Subtraction", SUB_OPTION, "[float]");
-				printf("\t|%s\t|%c\t\t|%s\t|\n", "Multiplication", MLT_OPTION, "[float]");
-				printf("\t|%s\t|%c\t\t|%s\t|\n", "Division", DIV_OPTION, "[float]");
-				printf("\t|%s|%c\t\t|%s\t\t|\n", "Calculate Total", EQL_OPTION, "[null]");
-				printf("\t|%s\t|%c\t\t|%s\t\t|\n", "Go Back", BCK_OPTION, "[null]");
-				printf("\t|%s\t|%c\t\t|%s\t\t|\n", "Go Forward", FWD_OPTION, "[null]");
-				printf("\t|%s|%c\t\t|%s\t\t|\n", "Clear Operation", CLR_OPTION, "[null]");
-				printf("\t|%s\t|%c\t\t|%s\t\t|\n\n", "Exit Program", EXT_OPTION, "[null]");
+				printf("\n||%s||\n", "Execute a command with their INPUT and PARAMS");
+				printf("\n||%s||\n", "      keys that are listed in the table      ");
+				printf("\n|%s\t|%s\t\t|%s\t\t|\n", "COMMAND", "INPUT", "PARAMS");
+				printf("=================================================\n");
+				printf("|%s\t|%c\t\t|%s\t|\n", "Addition", ADD_OPTION, "[float]");
+				printf("|%s\t|%c\t\t|%s\t|\n", "Subtraction", SUB_OPTION, "[float]");
+				printf("|%s\t|%c\t\t|%s\t|\n", "Multiplication", MLT_OPTION, "[float]");
+				printf("|%s\t|%c\t\t|%s\t|\n", "Division", DIV_OPTION, "[float]");
+				printf("|%s\t|%c\t\t|%s\t|\n", "Power To", PWR_OPTION, "[integer]");
+				printf("|%s|%c\t\t|%s\t\t|\n", "Calculate Total", EQL_OPTION, "[null]");
+				printf("|%s\t|%c\t\t|%s\t\t|\n", "Go Back", BCK_OPTION, "[null]");
+				printf("|%s\t|%c\t\t|%s\t\t|\n", "Go Forward", FWD_OPTION, "[null]");
+				printf("|%s|%c\t\t|%s\t\t|\n", "Clear Operation", CLR_OPTION, "[null]");
+				printf("|%s\t|%c\t\t|%s\t\t|\n\n", "Exit Program", EXT_OPTION, "[null]");
 				break;
-			case ADD_OPTION: case SUB_OPTION: case MLT_OPTION: case DIV_OPTION:
+			case ADD_OPTION: case SUB_OPTION: case MLT_OPTION: case DIV_OPTION: case PWR_OPTION:
 				scanf("%f", &numberInput);
 
 				if (optionInput == ADD_OPTION) {
@@ -94,6 +96,13 @@ int main() {
 				} else if (optionInput == DIV_OPTION) {
 					printf(COLOUR_GREEN "%s[%.2f]from[%.2f]\n" COLOUR_RESET, "Divided number", numberInput, currentNumber);
 					currentNumber /= numberInput;
+				} else if (optionInput == PWR_OPTION) {
+					printf(COLOUR_GREEN "[%.2f]%s[%.0f]\n" COLOUR_RESET, currentNumber, "to the power of", numberInput);
+					int inputAsInt = (int) numberInput;
+
+					for (int pwr = 1; pwr < inputAsInt; pwr++) {
+						currentNumber *= currentNumber;
+					}
 				}
 
 				operations[currentOperation] = optionInput;
