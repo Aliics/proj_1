@@ -17,6 +17,7 @@ C# experience that I have obtained.
 ---------------------------------------- */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -31,13 +32,13 @@ C# experience that I have obtained.
 #define CLR_OPTION '!'
 #define EXT_OPTION '.'
 
-#define COLOR_RESET "\x1b[0m"
-#define COLOR_RED "\x1b[31m"
-#define COLOR_GREEN "\x1b[32m"
-#define COLOR_YELLOW "\x1b[33m"
-#define COLOR_BLUE "\x1b[34m"
-#define COLOR_MAGENTA "\x1b[35m"
-#define COLOR_CYAN "\x1b[36m"
+#define COLOUR_RESET "\x1b[0m"
+#define COLOUR_RED "\x1b[31m"
+#define COLOUR_GREEN "\x1b[32m"
+#define COLOUR_YELLOW "\x1b[33m"
+#define COLOUR_BLUE "\x1b[34m"
+#define COLOUR_MAGENTA "\x1b[35m"
+#define COLOUR_CYAN "\x1b[36m"
 
 int main() {
 	int programExitCode = 0;
@@ -47,12 +48,12 @@ int main() {
 	char optionInput;
 	float numberInput;
 	
-	char operations[1024];
-	float backlist[1024];
+	char* operations = (char*) malloc(1024 * sizeof(char));
+	float* backlist = (float*) malloc(1024 * sizeof(float));
 	int currentOperation = 0;
 	double currentNumber = 0;
 
-	printf(COLOR_YELLOW "%s\n%s%c%s\n" COLOR_RESET, 
+	printf(COLOUR_YELLOW "%s\n%s%c%s\n" COLOUR_RESET, 
 		"Welcome to the basic console calculator!", 
 		"Type '", HELP_OPTION, "' for help."
 	);
@@ -82,16 +83,16 @@ int main() {
 				scanf("%f", &numberInput);
 
 				if (optionInput == ADD_OPTION) {
-					printf(COLOR_GREEN "%s[%.2f]to[%.2f]\n" COLOR_RESET, "Added number", numberInput, currentNumber);
+					printf(COLOUR_GREEN "%s[%.2f]to[%.2f]\n" COLOUR_RESET, "Added number", numberInput, currentNumber);
 					currentNumber += numberInput;
 				} else if (optionInput == SUB_OPTION) {
-					printf(COLOR_GREEN "%s[%.2f]for[%.2f]\n" COLOR_RESET, "Subtracted number", numberInput, currentNumber);
+					printf(COLOUR_GREEN "%s[%.2f]for[%.2f]\n" COLOUR_RESET, "Subtracted number", numberInput, currentNumber);
 					currentNumber -= numberInput;
 				} else if (optionInput == MLT_OPTION) {
-					printf(COLOR_GREEN "%s[%.2f]to[%.2f]\n" COLOR_RESET, "Multiplied number", numberInput, currentNumber);
+					printf(COLOUR_GREEN "%s[%.2f]to[%.2f]\n" COLOUR_RESET, "Multiplied number", numberInput, currentNumber);
 					currentNumber *= numberInput;
 				} else if (optionInput == DIV_OPTION) {
-					printf(COLOR_GREEN "%s[%.2f]from[%.2f]\n" COLOR_RESET, "Divided number", numberInput, currentNumber);
+					printf(COLOUR_GREEN "%s[%.2f]from[%.2f]\n" COLOUR_RESET, "Divided number", numberInput, currentNumber);
 					currentNumber /= numberInput;
 				}
 
@@ -103,29 +104,29 @@ int main() {
 				backlist[currentOperation + 1] = '\0';
 				break;
 			case EQL_OPTION:
-				printf("%s[%.2f]\n", "Total", currentNumber);
+				printf(COLOUR_GREEN "%s[%.2f]\n" COLOUR_RESET, "Total", currentNumber);
 				break;
 			case BCK_OPTION:
 				if (currentOperation == 0) {
-					printf(COLOR_RED "%s\n" COLOR_RESET, "No operations to undo");
+					printf(COLOUR_RED "%s\n" COLOUR_RESET, "No operations to undo");
 					break;
 				}
 
 				currentOperation--;
 
-				printf(COLOR_GREEN "%s[%c]%s[%.2f]\n" COLOR_RESET, "Undid", operations[currentOperation], "total is now", backlist[currentOperation]);
+				printf(COLOUR_GREEN "%s[%c]%s[%.2f]\n" COLOUR_RESET, "Undid", operations[currentOperation], "total is now", backlist[currentOperation]);
 
 				currentNumber = backlist[currentOperation];
 				break;
 			case FWD_OPTION:
 				if (operations[currentOperation] == '\0') {
-					printf(COLOR_RED "%s\n" COLOR_RESET, "No more operations");
+					printf(COLOUR_RED "%s\n" COLOUR_RESET, "No more operations");
 					break;
 				}
 
 				currentOperation++;
 
-				printf(COLOR_GREEN "%s[%c]%s[%.2f]\n" COLOR_RESET, "Redid", operations[currentOperation - 1], "total is now", backlist[currentOperation]);
+				printf(COLOUR_GREEN "%s[%c]%s[%.2f]\n" COLOUR_RESET, "Redid", operations[currentOperation - 1], "total is now", backlist[currentOperation]);
 
 				currentNumber = backlist[currentOperation];
 				break;
@@ -136,7 +137,7 @@ int main() {
 
 				while (!inputValid) {
 					if (!nextLineEntered)
-						printf(COLOR_BLUE "%s \n" COLOR_RESET, "Would you like to clear all operations? [Y\\N]");
+						printf(COLOUR_BLUE "%s \n" COLOUR_RESET, "Would you like to clear all operations? [Y\\N]");
 
 					char clearInput;
 
@@ -156,17 +157,17 @@ int main() {
 
 					if (!inputValid && clearInput != '\n') {
 						nextLineEntered = false;
-						printf(COLOR_RED "%s\n" COLOR_RESET, "Invalid input!");
+						printf(COLOUR_RED "%s\n" COLOUR_RESET, "Invalid input!");
 					} else if (clearInput == '\n')
 						nextLineEntered = true;
 				}
 
 				if (!clearOperation) {
-					printf(COLOR_RED "%s\n" COLOR_RESET, "No operations have been cleared.");
+					printf(COLOUR_RED "%s\n" COLOUR_RESET, "No operations have been cleared.");
 					break;
 				}
 				
-				printf(COLOR_GREEN "%s[%.2f]\n" COLOR_RESET, "Cleared number", currentNumber);
+				printf(COLOUR_GREEN "%s[%.2f]\n" COLOUR_RESET, "Cleared number", currentNumber);
 				
 				memset(&operations[0], 0, sizeof(operations));
 				memset(&backlist[0], 0, sizeof(backlist));
@@ -183,7 +184,10 @@ int main() {
 		}
 	}
 
-	printf(COLOR_CYAN "%s[%d]\n" COLOR_RESET, "Exit code", programExitCode);
+	free(operations);
+	free(backlist);
+
+	printf(COLOUR_CYAN "%s[%d]\n" COLOUR_RESET, "Exit code", programExitCode);
 
 	return programExitCode;
 }
