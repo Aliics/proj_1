@@ -20,6 +20,7 @@ C# experience that I have obtained.
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #define HELP_OPTION '?'
 #define ADD_OPTION '+'
